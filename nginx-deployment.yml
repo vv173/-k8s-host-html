@@ -2,11 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx
+  namespace: webpage
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-  - http:
+  - host: domain-name.static
+    http:
       paths:
       - path: /
         pathType: Prefix
@@ -15,11 +17,16 @@ spec:
             name: nginx
             port:
               number: 80
+  tls:
+  - hosts:
+    - domain-name.static
+    secretName: nginx-tls
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: nginx
+  namespace: webpage
   labels:
     app: nginx
     tier: frontend
@@ -27,7 +34,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 9090
   selector:
     app: nginx
     tier: frontend
@@ -36,6 +43,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
+  namespace: webpage
   labels:
     app: nginx
 spec:
@@ -53,8 +61,8 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: v17v3/vnginx:v1
+      - image: v17v3/vnginx:v3.1
         name: nginx
         ports:
-        - containerPort: 80
+        - containerPort: 9090
           name: nginx
