@@ -6,6 +6,10 @@ metadata:
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
 spec:
+  tls:
+  - hosts:
+    - domain-name.static
+    secretName: nginx-webpage-tls
   rules:
   - host: domain-name.static
     http:
