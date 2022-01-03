@@ -11,18 +11,22 @@ Requirements:
       
        kubectl create namespace letsencrypt
       
-2) Second we need to deployt ClusterIssuer for cert-manager.
+2) Second we need to deploy ClusterIssuer for cert-manager.
 
       Replace *server* and *email* keys in letsencrypt-traefik-issuer.yml file with real information
       
        kubectl apply -f letsencrypt-traefik-issuer.yml
 
-3) Next step, create TLS certicate.
+3) Next step, create a TLS certificate.
       
       We need to replace *dnsNames* key in cert.yml with a valid DNS entry
        
        kubectl apply -f cert.yml
-       
-4) Last step is, to deploy our webpage with ingress.
 
-        kubectl apply -f nginx-deployment.yml
+4) In our fourth step, we should build a docker image from the docker file, with a simple command.
+
+       docker build -t v17v3/vnginx:v3.1 .
+       
+5) Last step is, to deploy our webpage with ingress.
+
+       kubectl apply -f nginx-deployment.yml

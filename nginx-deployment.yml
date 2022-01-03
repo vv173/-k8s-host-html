@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - domain-name.static
+    - my.kubernetes.example
     secretName: nginx-webpage-tls
   rules:
-  - host: domain-name.static
+  - host: my.kubernetes.example
     http:
       paths:
       - path: /
@@ -23,7 +23,7 @@ spec:
               number: 80
   tls:
   - hosts:
-    - domain-name.static
+    - my.kubernetes.example
     secretName: nginx-tls
 ---
 apiVersion: v1
